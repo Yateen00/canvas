@@ -5,11 +5,32 @@
 let defaultBgColor = "white";
 let defaultOpacity = "1";
 let canvas = document.querySelector("#canvas");
-canvas.addEventListener("mousedown", changeColor);
+mouseDown();
 canvas.addEventListener("click", changeColor);
 
+function mouseDown() {
+  let isMouseDown = false;
+  canvas.addEventListener("mousedown", function (event) {
+    isMouseDown = true;
+    changeColor(event);
+  });
+
+  document.addEventListener("mouseup", function () {
+    isMouseDown = false;
+  });
+
+  canvas.addEventListener("mousemove", function (event) {
+    if (isMouseDown) {
+      changeColor(event);
+    }
+  });
+
+  canvas.addEventListener("mouseleave", function () {
+    isMouseDown = false;
+  });
+}
+
 function createCanvas(square_side = 16) {
-  clearCanvas();
   for (let i = 0; i < square_side; i++) {
     let row = document.createElement("div");
     row.setAttribute("id", `${i + 1}`);
@@ -60,6 +81,7 @@ function parseSize(size = 16) {
   if (Number.isNaN(size)) {
     size = 16;
   }
+
   return size;
 }
 function clearCanvas() {
@@ -72,13 +94,18 @@ function clearCanvas() {
 }
 function changeSize() {
   let size = parseSize(input.value);
+  clearCanvas();
+  canvas.innerHTML = "";
   createCanvas(size);
 }
 function setHover(isOn) {
   if (isOn) {
-    canvas.addEventListener("mousedown", changeColor);
+    mouseDown();
   } else {
     canvas.removeEventListener("mousedown", changeColor);
+    canvas.removeEventListener("mousemove", changeColor);
+    canvas.removeEventListener("mouseleave", changeColor);
+    canvas.removeEventListener("mouseup", changeColor);
   }
 }
 function utilityClickEvents(e) {
