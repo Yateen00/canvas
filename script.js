@@ -5,29 +5,34 @@
 let defaultBgColor = "white";
 let defaultOpacity = "1";
 let canvas = document.querySelector("#canvas");
-mouseDown();
 canvas.addEventListener("click", changeColor);
+mouseDown();
+let isMouseDown = false;
+
+function handleMouseDown(event) {
+  isMouseDown = true;
+  changeColor(event);
+}
+
+function handleMouseUp() {
+  isMouseDown = false;
+}
+
+function handleMouseMove(event) {
+  if (isMouseDown) {
+    changeColor(event);
+  }
+}
+
+function handleMouseLeave() {
+  isMouseDown = false;
+}
 
 function mouseDown() {
-  let isMouseDown = false;
-  canvas.addEventListener("mousedown", function (event) {
-    isMouseDown = true;
-    changeColor(event);
-  });
-
-  document.addEventListener("mouseup", function () {
-    isMouseDown = false;
-  });
-
-  canvas.addEventListener("mousemove", function (event) {
-    if (isMouseDown) {
-      changeColor(event);
-    }
-  });
-
-  canvas.addEventListener("mouseleave", function () {
-    isMouseDown = false;
-  });
+  canvas.addEventListener("mousedown", handleMouseDown);
+  canvas.addEventListener("mouseup", handleMouseUp);
+  canvas.addEventListener("mousemove", handleMouseMove);
+  canvas.addEventListener("mouseleave", handleMouseLeave);
 }
 
 function createCanvas(square_side = 16) {
@@ -102,10 +107,10 @@ function setHover(isOn) {
   if (isOn) {
     mouseDown();
   } else {
-    canvas.removeEventListener("mousedown", changeColor);
-    canvas.removeEventListener("mousemove", changeColor);
-    canvas.removeEventListener("mouseleave", changeColor);
-    canvas.removeEventListener("mouseup", changeColor);
+    canvas.removeEventListener("mousedown", handleMouseDown);
+    canvas.removeEventListener("mousemove", handleMouseMove);
+    canvas.removeEventListener("mouseleave", handleMouseLeave);
+    canvas.removeEventListener("mouseup", handleMouseUp);
   }
 }
 function utilityClickEvents(e) {
