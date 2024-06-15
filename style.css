@@ -18,3 +18,15 @@
 .column {
   flex: 1;
 }
+#utility {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+  gap: 5px;
+  flex: 1;
+}
+button,
+input {
+  padding: 10px;
+}

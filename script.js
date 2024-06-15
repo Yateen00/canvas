@@ -20,7 +20,7 @@ function changeColor(event) {
   element.style.backgroundColor = color;
 }
 function getSize() {
-  let size = prompt("Enter the size of the canvas(max 100)");
+  let size = 16;
   size = parseInt(size);
   if (size > 100) {
     size = 100;
