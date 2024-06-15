@@ -4,9 +4,12 @@
 //canvas related functions
 let defaultBgColor = "white";
 let defaultOpacity = "1";
+let canvas = document.querySelector("#canvas");
+canvas.addEventListener("mouseover", changeColor);
+canvas.addEventListener("click", changeColor);
+
 function createCanvas(square_side = 16) {
   clearCanvas();
-  let canvas = document.querySelector("#canvas");
   for (let i = 0; i < square_side; i++) {
     let row = document.createElement("div");
     row.setAttribute("id", `${i + 1}`);
@@ -23,8 +26,6 @@ function createCanvas(square_side = 16) {
     }
     canvas.appendChild(row);
   }
-  canvas.addEventListener("mouseover", changeColor);
-  canvas.addEventListener("click", changeColor);
 }
 function changeColor(event) {
   let element = event.target;
@@ -73,15 +74,38 @@ function changeSize() {
   let size = parseSize(input.value);
   createCanvas(size);
 }
-let resize = document.querySelector("#resize");
-let clear = document.querySelector("#clear");
-let input = document.querySelector("input");
+function setHover(isOn) {
+  if (isOn) {
+    canvas.addEventListener("mouseover", changeColor);
+  } else {
+    canvas.removeEventListener("mouseover", changeColor);
+  }
+}
+function utilityClickEvents(e) {
+  let target = e.target;
+  switch (target.id) {
+    case "hoverOn":
+      setHover(true);
+      break;
+    case "hoverOff":
+      setHover(false);
+      break;
+    case "resize":
+      changeSize();
+      break;
+    case "clear":
+      clearCanvas();
+      break;
+  }
+}
 
-resize.addEventListener("click", changeSize);
+let input = document.querySelector("input");
+let utility = document.querySelector("#utility");
 input.addEventListener("keyup", (e) => {
   if (e.key === "Enter") changeSize();
 });
-clear.addEventListener("click", clearCanvas);
+utility.addEventListener("click", utilityClickEvents);
+
 alert(
   "input a size, and click or hover mouse to draw. random colour each time."
 );
