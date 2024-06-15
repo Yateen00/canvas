@@ -5,7 +5,7 @@
 let defaultBgColor = "white";
 let defaultOpacity = "1";
 let canvas = document.querySelector("#canvas");
-canvas.addEventListener("mouseover", changeColor);
+canvas.addEventListener("mousedown", changeColor);
 canvas.addEventListener("click", changeColor);
 
 function createCanvas(square_side = 16) {
@@ -76,9 +76,9 @@ function changeSize() {
 }
 function setHover(isOn) {
   if (isOn) {
-    canvas.addEventListener("mouseover", changeColor);
+    canvas.addEventListener("mousedown", changeColor);
   } else {
-    canvas.removeEventListener("mouseover", changeColor);
+    canvas.removeEventListener("mousedown", changeColor);
   }
 }
 function utilityClickEvents(e) {
@@ -107,5 +107,5 @@ input.addEventListener("keyup", (e) => {
 utility.addEventListener("click", utilityClickEvents);
 
 alert(
-  "input a size, and click or hover mouse to draw. random colour each time."
+  "input a size, and click mouse or keeping pressing it down to draw . random colour each time."
 );
